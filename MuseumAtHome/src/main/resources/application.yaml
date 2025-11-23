@@ -1,0 +1,13 @@
+spring:
+  h2:
+    console enabled: true
+  batch:
+    jdbc:
+      initialize-schema: "always"
+  jpa:
+      show-sql : true
+      hibernate:
+        format_sql: true
+        ddl-auto: none
+application:
+    name: MuseumAtHome
