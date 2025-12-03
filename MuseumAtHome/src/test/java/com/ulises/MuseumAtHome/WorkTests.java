@@ -7,9 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+
+import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +23,7 @@ public class WorkTests {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    private Work testwork = new Work(1L, "nombre", "descripcion", 20, 20, 15.00, 10, "/valido.jpg");
+    private Work testwork = new Work(9999L, "nombre", "descripcion", 20, 20, 15.00, 10, "/valido.jpg");
 
     @Test
     @DirtiesContext
@@ -45,6 +49,7 @@ public class WorkTests {
        String url = "/works";
        Work[] works = testRestTemplate.getForObject(url, Work[].class);
         assertEquals("Guernica",works[0].getName());
+        assertEquals("Mona Lisa", works[3].getName());
     }
 
     @Test
@@ -54,6 +59,16 @@ public class WorkTests {
         Work work = testRestTemplate.getForObject(url, Work.class);
         assertEquals("Guernica", work.getName());
     }
+
+    /*@Test
+    @DirtiesContext
+    public void createAccount(){
+        String url = "/works";
+        URI uri = testRestTemplate.postForLocation(url, testwork, Void.class);
+        System.out.println(uri);
+        Work w = testRestTemplate.getForObject(uri, Work.class);
+        assertEquals(testwork.getName(), w.getName());
+    }*/
 
     @Test
     @DirtiesContext

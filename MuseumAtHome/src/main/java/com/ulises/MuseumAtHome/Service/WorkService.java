@@ -2,7 +2,9 @@ package com.ulises.MuseumAtHome.Service;
 
 import com.ulises.MuseumAtHome.entity.Work;
 import com.ulises.MuseumAtHome.repository.WorkRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +41,11 @@ public class WorkService {
         return work.get();
     }
 
+    public Work saveWork(Work work){
+        Work w = this.repository.save(work);
+        return w;
+    }
+
     public Work deleteWork(Long id){
         Optional<Work> obraOpt = repository.findById(id);
         if(obraOpt.isEmpty()){
@@ -49,8 +56,8 @@ public class WorkService {
         return work;
     }
 
-    public Work editarNameOfWork(Work edit){
-        Optional<Work> work = repository.findById(edit.getId());
+    public void editNameOfWork(Long id, Work edit){
+        Optional<Work> work = repository.findById(id);
         if(work.isEmpty()){
             System.out.println("Work not found");
 
@@ -58,12 +65,11 @@ public class WorkService {
         if(edit.getName() == null || edit.getName().isBlank())
         {
             System.out.println("Invalid name");
-            return null;
+            return;
         }
         Work w = work.get();
         w.setName(edit.getName());
         repository.save(w);
-        return w;
     }
 
 
